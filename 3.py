@@ -1,24 +1,24 @@
-import math
+def sieve(numbers, n):
+    for i in range(n * 2, len(numbers), n):
+        numbers[i] = False
+        i += n
+
+def skip_to_next_prime(numbers, n):
+    n += 1
+    while n < max and not numbers[n]:
+        n += 1
+    return n
 
 def primes(max):
     '''generate primes less than max'''
-    max = int(math.sqrt(max - 2))
-    nums = [False, False] + [True] * max
+    max = int(max ** .5)
+    numbers = [False, False] + [True] * max
     n = 2
     while n < max:
-        # All elements divisible by n are not primes
-        i = n + n
-        ####print i, n, max, ((max - i) / n), len(nums[i::n])
-        ####nums[i::n] = [False] * ((max - i) / n)
-        while i < max:
-            nums[i] = False
-            i += n
-        # Find the next prime
-        n += 1
-        while n < max and not nums[n]:
-            n += 1
+        sieve(numbers, n)
+        n = skip_to_next_prime(numbers, n)
 
-    return [i for i in range(max) if nums[i]]
+    return [i for i in range(max) if numbers[i]]
 
 #n = 13195
 n = 600851475143
